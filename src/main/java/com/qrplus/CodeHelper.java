@@ -52,7 +52,7 @@ public class CodeHelper {
 
     public static String getMacAddress() {
         if (macAddressStr == null || macAddressStr.equals("")) {
-            StringBuffer sb = new StringBuffer(); //存放多个网卡地址用，目前只取一个非0000000000E0隧道的值
+            StringBuffer sb = new StringBuffer();
             try {
                 List<String> macList = getMacAddressList();
                 for (Iterator<String> iter = macList.iterator(); iter.hasNext(); ) {
@@ -70,8 +70,4 @@ public class CodeHelper {
         return macAddressStr.replace("-","");
     }
 
-
-    public static void main(String[] args) {
-        System.out.println(getMacAddress());
-    }
 }
