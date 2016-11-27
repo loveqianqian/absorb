@@ -20,19 +20,47 @@ public class FileHelper {
         return String.valueOf(fsv.getHomeDirectory());
     }
 
-    public void createMac() throws Exception {
+    public void createOther() throws Exception {
         String administratorPath = getAdministratorPath();
         String fileName = getCurrentTime();
         String code = new CodeHelper().getMacAddress();
         String encrypt = string2MD5(code);
         File file = new File(administratorPath + "/" + fileName + ".txt");
         if (file.exists()) {
+            file.delete();
             file.createNewFile();
         }
+        file.mkdirs();
+        file.createNewFile();
         BufferedWriter writer = new BufferedWriter(new FileWriter(file));
         writer.write(encrypt);
         writer.flush();
         writer.close();
+    }
+
+    public void createMac() throws Exception {
+        String code = new CodeHelper().getMacAddress();
+        String encrypt = string2MD5(code);
+        File f = new File(getAbsPath() + "/data/.k.tell");
+        File fDir = new File(getAbsPath() + "/data");
+        if (!fDir.exists()) {
+            fDir.mkdirs();
+        }
+        if (f.exists()) {
+            f.delete();
+        }
+        f.createNewFile();
+        BufferedWriter w = new BufferedWriter(new FileWriter(f));
+        w.write(encrypt);
+        w.flush();
+        w.close();
+    }
+
+    public String getAbsPath() {
+        FileSystemView fsv = FileSystemView.getFileSystemView();
+        String administratorPath = String.valueOf(fsv.getHomeDirectory());
+        int i = administratorPath.lastIndexOf("\\");
+        return administratorPath.substring(0, i);
     }
 
     public String string2MD5(String inStr) throws Exception {
